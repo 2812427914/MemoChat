@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoChat Landing Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f6f8fa;
+            color: #24292e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #24292e;
+            padding: 10px 20px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-select {
+            position: relative;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+        .select-selected {
+            background-color: #24292e;
+            color: #ffffff;
+            padding: 5px 10px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .select-selected:hover {
+            background-color: #0366d6;
+        }
+        .select-items {
+            position: absolute;
+            background-color: #24292e;
+            color: #ffffff;
+            top: 100%;
+            left: 0;
+            display: block;;
+            z-index: 99;
+            border: 1px solid #d1d5da;
+            border-top: none;
+            display: none;
+        }
+        .select-items div {
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .select-items div:hover {
+            background-color: #0366d6;
+        }
+        .select-hide {
+            display: none;
+        }
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #0366d6;
+        }
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: #24292e;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .hero .cta-button {
+            padding: 15px 30px;
+            background-color: #0366d6;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .hero .cta-button:hover {
+            background-color: #ffffff;
+            color: #0366d6;
+        }
+        .section {
+            display: flex;
+            align-items: center;
+            padding: 60px 20px;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        .section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .section-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .section h2 {
+            font-size: 32px;
+            color: #24292e;
+            margin-bottom: 20px;
+        }
+        .section p {
+            font-size: 18px;
+            color: #586069;
+            margin-bottom: 20px;
+        }
+        .section .image-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #24292e;
+            color: #ffffff;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #0366d6;
+        }
+        .footer p {
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
+            .section {
+                flex-direction: column;
+                padding: 40px 20px;
+            }
+            .section:nth-child(even) {
+                flex-direction: column;
+            }
+            .section h2 {
+                font-size: 24px;
+            }
+            .section p {
+                font-size: 16px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                margin-top: 10px;
+            }
+            .custom-select {
+                margin: 10px 0;
+            }
+        }
+    </style>
+<script>
+    const translations = {
+        "zh-CN": {
+            "title": "MemoChat 登陆页面",
+            "navbar": {
+                "features": "功能",
+                "github": "GitHub",
+                "download": "下载",
+            "githubUrl": "https://github.com/2812427914/MemoChat.git",
+            "downloadUrl": "https://github.com/2812427914/MemoChat/releases"
+            },
+            "hero": {
+                "heading": "MemoChat",
+                "subheading": "集成文档和对话功能的智能工作站"
+            },
+            "sections": [
+                {
+                    "heading": "自由的对话上下文管理",
+                    "content": "体验无拘无束的对话管理。MemoChat 允许您在对话中自由调整和设置角色，打破传统的回合制交互模式。"
+                },
+                {
+                    "heading": "多窗口及实时同步",
+                    "content": "在多个窗口中同时处理不同任务，MemoChat 确保所有窗口内容实时同步，避免信息不一致。"
+                },
+                {
+                    "heading": "支持本地文件交互",
+                    "content": "直接在 MemoChat 中与本地文件进行交互，无需切换应用程序。"
+                },
+                {
+                    "heading": "Markdown 预览支持",
+                    "content": "在 MemoChat 中，您可以直接预览 Markdown 文档，包括复杂的 mermaid 和 UML 图表。"
+                }
+            ],
+            "footer": {
+                "about": "关于我们",
+                "privacy": "隐私政策",
+                "terms": "服务条款"
+            }
+        },
+        "en-US": {
+            "title": "MemoChat Landing Page",
+            "navbar": {
+                "features": "Features",
+                "github": "GitHub",
+                "download": "Download",
+            "githubUrl": "https://github.com/2812427914/MemoChat.git",
+            "downloadUrl": "https://github.com/2812427914/MemoChat/releases"
+            },
+            "hero": {
+                "heading": "MemoChat",
+                "subheading": "An intelligent workstation integrating document and chat functions"
+            },
+            "sections": [
+                {
+                    "heading": "Free Context Management",
+                    "content": "Experience unrestricted conversation management. MemoChat allows you to freely adjust and set roles in conversations, breaking the traditional turn-based interaction mode."
+                },
+                {
+                    "heading": "Multi-window and Real-time Sync",
+                    "content": "Handle different tasks in multiple windows simultaneously. MemoChat ensures real-time synchronization of all window contents, avoiding information inconsistency."
+                },
+                {
+                    "heading": "Local File Interaction Support",
+                    "content": "Interact with local files directly in MemoChat without switching applications."
+                },
+                {
+                    "heading": "Markdown Preview Support",
+                    "content": "In MemoChat, you can directly preview Markdown documents, including complex mermaid and UML diagrams."
+                }
+            ],
+            "footer": {
+                "about": "About Us",
+                "privacy": "Privacy Policy",
+                "terms": "Terms of Service"
+            }
+        }
+    };
+
+    function switchLanguage(language) {
+        const selectedLanguage = language || document.querySelector('.select-selected').getAttribute('data-value');
+        const translation = translations[selectedLanguage];
+
+        document.title = translation.title;
+        document.querySelector('.navbar a[href="#features"]').textContent = translation.navbar.features;
+        const githubLink = document.querySelector('.navbar a[href="#github"]');
+        githubLink.textContent = translation.navbar.github;
+        githubLink.setAttribute('href', 'https://github.com/2812427914/MemoChat.git');
+        githubLink.setAttribute('target', '_blank');
+        githubLink.setAttribute('target', '_blank');
+        const downloadLink = document.querySelector('#download-link');
+        downloadLink.textContent = translation.navbar.download;
+        downloadLink.setAttribute('href', translation.navbar.downloadUrl);
+
+        document.querySelector('.hero h1').textContent = translation.hero.heading;
+        document.querySelector('.hero p').textContent = translation.hero.subheading;
+
+        const sections = document.querySelectorAll('.section');
+        sections.forEach((section, index) => {
+            section.querySelector('h2').textContent = translation.sections[index].heading;
+            section.querySelector('p').textContent = translation.sections[index].content;
+        });
+
+        document.querySelector('.footer a[href="#about"]').textContent = translation.footer.about;
+        document.querySelector('.footer a[href="#privacy"]').textContent = translation.footer.privacy;
+        document.querySelector('.footer a[href="#terms"]').textContent = translation.footer.terms;
+    }
+
+    function closeAllSelect(elmnt) {
+        const items = document.querySelectorAll('.select-items');
+        const selected = document.querySelectorAll('.select-selected');
+        items.forEach((item, index) => {
+            if (elmnt !== selected[index]) {
+                item.classList.add('select-hide');
+                selected[index].classList.remove('select-arrow-active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const languageSwitcher = document.querySelector('#languageSwitcher .select-selected');
+        const selectItems = document.querySelector('#languageSwitcher .select-items');
+
+        // Ensure the select-items is visible when clicking the select-selected
+        languageSwitcher.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('select-arrow-active');
+            selectItems.classList.toggle('select-hide');
+        });
+
+        document.addEventListener('click', closeAllSelect);
+
+        // 初始化页面时设置默认语言
+        switchLanguage('zh-CN');
+
+        // Close all select boxes if the user clicks outside
+        function closeAllSelect(elmnt) {
+            const items = document.querySelectorAll('.select-items');
+            const selected = document.querySelectorAll('.select-selected');
+            items.forEach((item, index) => {
+                if (elmnt !== selected[index]) {
+                    item.classList.add('select-hide');
+                    selected[index].classList.remove('select-arrow-active');
+                }
+            });
+        }
+
+        document.querySelectorAll('#languageSwitcher .select-items div').forEach(item => {
+            item.addEventListener('click', function() {
+                languageSwitcher.textContent = this.textContent;
+                languageSwitcher.setAttribute('data-value', this.getAttribute('data-value'));
+                switchLanguage(this.getAttribute('data-value'));
+                selectItems.classList.add('select-hide');
+            });
+        });
+
+        switchLanguage('zh-CN'); // 默认语言设置为中文
+    });
+</script>
+<body>
+    <div class="navbar">
+        <div class="logo" style="font-size: 24px; font-weight: bold;">
+            MemoChat
+        </div>
+        <div class="nav-links" style="display: flex; align-items: center;">
+            <div class="custom-select" id="languageSwitcher">
+                <div class="select-selected">中文</div>
+                <div class="select-items select-hide">
+                    <div data-value="zh-CN">中文</div>
+                    <div data-value="en-US">English</div>
+                </div>
+            </div>
+            <a href="#features"></a>
+            <a href="#github"></a>
+            <a href="https://github.com/2812427914/MemoChat/releases" target="_blank" id="download-link"></a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>MemoChat</h1>
+        <p>集成文档和对话功能的智能工作站</p>
+
+    </div>
+
+    <div class="container">
+        <div id="features" class="section">
+            <div class="section-content">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="image-placeholder">
+                <img src="/Users/bytedance/Downloads/gits/MemoChat/images/Flexible_Context_Management.png" alt="自由的上下文管理" class="product-image">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="image-placeholder">
+                <img src="/Users/bytedance/Downloads/gits/MemoChat/images/Multi_Window_Management.png" alt="多窗口管理" style="max-width: 100%; border-radius: 10px;">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="image-placeholder">
+                <img src="/Users/bytedance/Downloads/gits/MemoChat/images/Local_File_Interaction.png" alt="本地文件交互" style="max-width: 100%; border-radius: 10px;">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="image-placeholder">
+                <img src="/Users/bytedance/Downloads/gits/MemoChat/images/Markdown_Preview_Support.png" alt="支持markdown 预览" style="max-width: 100%; border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-links">
+            <a href="#about">关于我们</a>
+            <a href="#privacy">隐私政策</a>
+            <a href="#terms">服务条款</a>
+        </div>
+        <p>&copy; 2024 MemoChat. All rights reserved.</p>
+        <p style="font-size: 12px;">made with MemoChat</p>
+    </div>
+</body>
+</html>
