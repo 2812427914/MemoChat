@@ -1,5 +1,5 @@
 # MemoChat
-[中文版本](#memochat)
+[中文版本](README.md)
 
 MemoChat is an intelligent workstation integrating document and chat functions. It allows users to freely adjust and set roles in conversations, supports multi-window and real-time synchronization, and can directly interact with local files.
 
