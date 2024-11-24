@@ -42,7 +42,7 @@ MemoChat 是一个集成了文档和聊天功能的智能工作站。它允许�
 - **拖入 VSCode 标签页文件**：支持将文件拖入编辑器进行插入到对话中。
 - **SEARCH/REPLACE block**：大模型对指定的文件进行编辑处理，根据 SEARCH block 进行匹配，使用 REPLACE block 进行替换。
 
-![Local File Interaction](images/Local_File_Interaction.png)
+<img src="images/Local_File_Interaction.png" alt="Local File Interaction" width="600"/>
 
 ### 本地命令行工具交互
 - **Terminal**：通过内置终端执行命令行操作。使用 `Cmd + J` 切换显示/隐藏终端。
