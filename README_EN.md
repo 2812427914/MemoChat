@@ -40,7 +40,9 @@ MemoChat is an intelligent workstation integrating document and chat functions. 
 - **Drag into VSCode Tab File**: Supports dragging files into the editor to insert them into the conversation.
 - **SEARCH/REPLACE block**: The large model edits the specified file, matches according to the SEARCH block, and replaces using the REPLACE block.
 
-<img src="images/Local_File_Interaction.png" alt="Local File Interaction" width="600"/>
+<p align="center">
+  <img src="images/Local_File_Interaction.png" alt="Local File Interaction" width="600"/>
+</p>
 
 ### Local Command Line Tool Interaction
 - **Terminal**: Execute command line operations through the built-in terminal. Use `Cmd + J` to toggle show/hide terminal.
