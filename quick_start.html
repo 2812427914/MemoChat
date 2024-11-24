@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoChat 快速上手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #24292e;
+        }
+        .navbar {
+            background-color: #24292e;
+            padding: 10px 20px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-select {
+            position: relative;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+        .select-selected {
+            background-color: #24292e;
+            color: #ffffff;
+            padding: 5px 10px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .select-selected:hover {
+            background-color: #0366d6;
+        }
+        .select-items {
+            position: absolute;
+            background-color: #24292e;
+            color: #ffffff;
+            top: 100%;
+            left: 0;
+            display: block;;
+            z-index: 99;
+            border: 1px solid #d1d5da;
+            border-top: none;
+            display: none;
+        }
+        .select-items div {
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .select-items div:hover {
+            background-color: #0366d6;
+        }
+        .select-hide {
+            display: none;
+        }
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #0366d6;
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                margin-top: 10px;
+            }
+            .custom-select {
+                margin: 10px 0;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #24292e;
+        }
+        .content-image {
+            width: 60%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f6f8fa;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh; /* 设置固定高度 */
+            overflow-y: auto; /* 设置垂直滚动 */
+            position: sticky; /* 使目录区固定在视口 */
+            top: 0; /* 固定在顶部 */
+        }
+        .sidebar h3 {
+            margin-top: 0;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #0366d6;
+        }
+        .sidebar ul li a:hover {
+            color: #24292e;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            min-height: 100vh; /* 设置最小高度 */
+        }
+        h2, h3 {
+            color: #24292e;
+        }
+        code {
+            background-color: #f6f8fa;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f6f8fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+    <script>
+        const translations = {
+            "zh-CN": {
+                "title": "MemoChat 快速上手",
+                "navbar": {
+                    "features": "首页",
+                    "github": "GitHub",
+                    "download": "下载",
+                    "githubUrl": "https://github.com/2812427914/MemoChat.git",
+                    "downloadUrl": "https://github.com/2812427914/MemoChat/releases"
+                }
+            },
+            "en-US": {
+                "title": "MemoChat Quick Start",
+                "navbar": {
+                    "features": "Home",
+                    "github": "GitHub",
+                    "download": "Download",
+                    "githubUrl": "https://github.com/2812427914/MemoChat.git",
+                    "downloadUrl": "https://github.com/2812427914/MemoChat/releases"
+                }
+            }
+        };
+
+        function switchLanguage(language) {
+            const selectedLanguage = language || document.querySelector('.select-selected').getAttribute('data-value');
+            const translation = translations[selectedLanguage];
+
+            document.title = translation.title;
+            document.querySelector('.navbar a[href="#features"]').textContent = translation.navbar.features;
+            const githubLink = document.querySelector('.navbar a[href="#github"]');
+            githubLink.textContent = translation.navbar.github;
+            githubLink.setAttribute('href', translation.navbar.githubUrl);
+            githubLink.setAttribute('target', '_blank');
+            const downloadLink = document.querySelector('#download-link');
+            downloadLink.textContent = translation.navbar.download;
+            downloadLink.setAttribute('href', translation.navbar.downloadUrl);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageSwitcher = document.querySelector('#languageSwitcher .select-selected');
+            const selectItems = document.querySelector('#languageSwitcher .select-items');
+
+            // Ensure the select-items is visible when clicking the select-selected
+            languageSwitcher.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('select-arrow-active');
+                selectItems.classList.toggle('select-hide');
+            });
+
+            document.addEventListener('click', closeAllSelect);
+
+            // 初始化页面时设置默认语言
+            switchLanguage('zh-CN');
+
+            // Close all select boxes if the user clicks outside
+            function closeAllSelect(elmnt) {
+                const items = document.querySelectorAll('.select-items');
+                const selected = document.querySelectorAll('.select-selected');
+                items.forEach((item, index) => {
+                    if (elmnt !== selected[index]) {
+                        item.classList.add('select-hide');
+                        selected[index].classList.remove('select-arrow-active');
+                    }
+                });
+            }
+
+            document.querySelectorAll('#languageSwitcher .select-items div').forEach(item => {
+                item.addEventListener('click', function() {
+                    languageSwitcher.textContent = this.textContent;
+                    languageSwitcher.setAttribute('data-value', this.getAttribute('data-value'));
+                    switchLanguage(this.getAttribute('data-value'));
+                    selectItems.classList.add('select-hide');
+                });
+            });
+
+            switchLanguage('zh-CN'); // 默认语言设置为中文
+        });
+
+        function switchLanguage(language) {
+            const selectedLanguage = language || document.querySelector('.select-selected').getAttribute('data-value');
+            const translation = translations[selectedLanguage];
+
+            document.title = translation.title;
+            document.querySelector('.navbar a[href="#features"]').textContent = translation.navbar.features;
+            const githubLink = document.querySelector('.navbar a[href="#github"]');
+            githubLink.textContent = translation.navbar.github;
+            githubLink.setAttribute('href', translation.navbar.githubUrl);
+            githubLink.setAttribute('target', '_blank');
+            const downloadLink = document.querySelector('#download-link');
+            downloadLink.textContent = translation.navbar.download;
+            downloadLink.setAttribute('href', translation.navbar.downloadUrl);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('zh-CN');
+        });
+    </script>
+</head>
+<body class="markdown-body">
+
+    <div class="navbar">
+        <div class="logo" style="font-size: 24px; font-weight: bold;">
+            <a href="index.html" style="color: inherit; text-decoration: none;">MemoChat</a>
+        </div>
+        <div class="nav-links" style="display: flex; align-items: center;">
+            <div class="custom-select" id="languageSwitcher">
+                <div class="select-selected">中文</div>
+                <div class="select-items select-hide">
+                    <div data-value="zh-CN">中文</div>
+                    <div data-value="en-US">English</div>
+                </div>
+            </div>
+            <a href="index.html">首页</a>
+            <a href="https://github.com/2812427914/MemoChat.git" target="_blank">GitHub</a>
+            <a href="https://github.com/2812427914/MemoChat/releases" target="_blank" id="download-link">下载</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h3>目录</h3>
+            <ul>
+                <li><a href="#multi-window">多窗口</a></li>
+                <li><a href="#trigger-model">触发大模型</a></li>
+                <li><a href="#interrupt-model">中断大模型</a></li>
+                <li><a href="#mention">Mention 快捷操作</a></li>
+                <li><a href="#local-file">本地文件交互</a></li>
+                <li><a href="#local-cli">本地命令行工具交互</a></li>
+                <li><a href="#markdown-preview">Markdown 预览</a></li>
+                <li><a href="#ghost-text">幽灵文本</a></li>
+                <li><a href="#custom-model">自定义模型</a></li>
+                <li><a href="#custom-agent">自定义 Agent</a></li>
+                <li><a href="#toolbar">选中内容弹出工具栏</a></li>
+                <li><a href="#shortcuts">快捷键汇总</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>MemoChat 快速上手</h2>
+
+    <h3 id="multi-window">多窗口</h3>
+    <ul>
+        <li><strong>说明</strong>：MemoChat 支持同时打开多个窗口进行操作。使用 <code>Cmd + N</code> 新建窗口。打开的窗口全都是置顶的悬浮框，可能会挡住其他的应用，请使用 <code>option</code> <code>z</code> 置顶/隐藏所有窗口。</li>
+    </ul>
+
+    <h3 id="trigger-model">触发大模型</h3>
+    <ul>
+        <li><strong>快捷键</strong>：<code>Cmd</code> <code>=</code></li>
+        <li><strong>说明</strong>：在编辑器中输入内容后，按下 <code>Cmd</code> <code>=</code> 可以触发大模型进行内容生成。</li>
+    </ul>
+
+    <h3 id="interrupt-model">中断大模型</h3>
+    <ul>
+        <li><strong>说明</strong>：在大模型生成过程中，按下任意键可以中断生成，或者鼠标点击编辑框任意处中断大模型。</li>
+    </ul>
+
+    <h3 id="mention">Mention 快捷操作</h3>
+    <ul>
+        <li><strong>说明</strong>：在行首通过 <code>@</code> 可以唤起意图选择；</li>
+        <li><strong>system、user、assistant</strong>：用于标记对话角色。</li>
+        <li><strong>file</strong>：用于插入文件内容。输入 <code>file </code> 后可以选择本地文件。</li>
+        <li><strong>recent</strong>：输入 <code>recent </code> 后可以快速访问最近使用的文件。</li>
+        <li><strong>tabs</strong>：输入 <code>tabs </code> 后可以访问当前打开的标签页。</li>
+        <li><strong>clipboard</strong>：输入 <code>clipboard </code> 后可以访问剪贴板历史。</li>
+        <li><strong>temp</strong>：用户临时独立的对话，不使用编辑框中的上下文；</li>
+        <li><strong>blockmatcher</strong>：用于控制大模型的代码块匹配。</li>
+        <li><strong>vscode</strong>：输入 <code>vscode </code> 后可以访问 VSCode 最近打开的文件。</li>
+        <li><strong>diffchecker</strong>：用于检查代码/文本差异。</li>
+        <li><strong>terminal</strong>：输入 <code>terminal </code> 后可以获取当前 terminal 的工作目录（pwd） 信息；</li>
+        <li><strong>workingDir</strong>：输入 <code>workingDir </code> 后可以选择当前工作目录（pwd）的文件插入对话。</li>
+    </ul>
+
+    <h3 id="local-file">本地文件交互</h3>
+    <ul>
+        <li><strong>拖入 VSCode 标签页文件</strong>：支持将文件拖入编辑器进行插入到对话中。</li>
+        <li><strong>SEARCH/REPLACE block</strong>：大模型对指定的文件进行编辑处理，根据 SEARCH block 进行匹配，使用 REPLACE block 进行替换。</li>
+    </ul>
+    <img src="/Users/bytedance/Downloads/MemoChat/images/Local_File_Interaction.png" alt="Local File Interaction" class="content-image">
+
+    <h3 id="local-cli">本地命令行工具交互</h3>
+    <ul>
+        <li><strong>Terminal</strong>：通过内置终端执行命令行操作。使用 <code>Cmd + J</code> 切换显示/隐藏终端。</li>
+    </ul>
+
+    <h3 id="markdown-preview">Markdown 预览</h3>
+    <ul>
+        <li><strong>快捷键</strong>：<code>Cmd + P</code></li>
+        <li><strong>说明</strong>：支持 Markdown 内容的实时预览，包括 Latex 数学公式、Mermaid 流程图和 PlantUML 图表。</li>
+    </ul>
+
+    <h3 id="ghost-text">幽灵文本</h3>
+    <ul>
+        <li><strong>说明</strong>：在编辑器中输入内容后，系统会自动生成建议文本，按 <code>Tab</code> 键接受建议。幽灵文本会在光标位置停留 0.5s 秒后开始请求。</li>
+    </ul>
+
+    <h3 id="custom-model">自定义模型</h3>
+    <ul>
+        <li><strong>说明</strong>：支持任何符合 OpenAI 请求格式的接口。</li>
+        <li><strong>配置方法</strong>：通过点击底部状态栏的配置按钮，打开<code>models-config.json</code> 文件自行配置。</li>
+        <li>暂时内置了 deepseek 模型，该 key 目前是我自己的，每月会充 10 RMB（500w tokens），用完即止，目前使用下来效果还行，如果没有其他选择的话，建议使用该模型。</li>
+    </ul>
+
+    <h3 id="custom-agent">自定义 Agent</h3>
+    <ul>
+        <li><strong>说明</strong>：在非行首位置通过 <code>@</code> 可以唤起自定义 Agent。选中的 agent 的 内容会作为 system prompt 传递给模型。</li>
+        <li>通过将对话文件的文件名设置为 <code>agent_{agentname}.md</code>，即可添加 agent，通过 @agentname 即可使用。</li>
+        <li>比如下方的 coder agent，其实是已经内置了一个对话文件为 "agent_coder.md"，该对话文件可以通过 <code>Cmd</code> <code>k</code> 触发对话历史框搜索查看。</li>
+        <li><strong>@coder</strong>：代码生成助手。</li>
+        <li><strong>@jarvis</strong>：智能助手。</li>
+        <li><strong>@html</strong>：HTML 生成助手。</li>
+        <li><strong>@commander</strong>：命令执行助手。</li>
+        <li><strong>@docer</strong>：文档生成助手。</li>
+        <li><strong>@thinking_process</strong>：思维过程分析助手。</li>
+    </ul>
+
+    <h3 id="toolbar">选中内容弹出工具栏</h3>
+    <ul>
+        <li><strong>comment</strong>：选中内容及上文作为 context 进行对话。</li>
+        <li><strong>chat</strong>：仅选中内容作为 context 进行对话。</li>
+        <li><strong>load_file</strong>：选中内容为本地文件地址，加载文件到对话中。</li>
+        <li><strong>load_url</strong>：选中内容为URL，加载网页内容到对话中。</li>
+        <li><strong>exec</strong>：选中内容为 terminal 命令，打开 terminal 执行命令。
+            <ul>
+                <li>假如你希望执行完的结果可以自动复制到剪贴板中，可以在命令后面添加上 <code>| pbcopy</code>，比如<code>cat hello.txt | pbcopy</code>，方便后续粘贴到对话中。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3 id="shortcuts">快捷键汇总</h3>
+    <ul>
+        <li><strong>option + z</strong>：置顶/隐藏所有窗口。</li>
+        <li><strong>Cmd + =</strong>：触发大模型。</li>
+        <li><strong>Cmd + Shift + =</strong>：检索相关文档后触发大模型。</li>
+        <li><strong>Cmd + J</strong>：切换终端。</li>
+        <li><strong>Cmd + T</strong>：新建标签页。</li>
+        <li><strong>Cmd + W</strong>：关闭当前标签页。</li>
+        <li><strong>Cmd + P</strong>：切换 Markdown 预览。</li>
+        <li><strong>Cmd + L</strong>：调整窗口大小，小、中、大。</li>
+        <li><strong>Cmd + N</strong>：新建窗口。</li>
+        <li><strong>Cmd + H</strong>：显示历史对话记录。</li>
+        <li><strong>Cmd + S</strong>：保存当前标签页内容。</li>
+    </ul>
+        </div>
+    </div>
+</body>
+</html>

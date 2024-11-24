@@ -136,7 +136,7 @@
             margin: 20px;
         }
         .product-image {
-            max-width: 100%;
+            max-width: 60%;
             height: auto;
             border-radius: 10px;
         }
@@ -198,7 +198,7 @@
         "zh-CN": {
             "title": "MemoChat 登陆页面",
             "navbar": {
-                "features": "功能",
+                "features": "快速上手",
                 "github": "GitHub",
                 "download": "下载",
             "githubUrl": "https://github.com/2812427914/MemoChat.git",
@@ -235,7 +235,7 @@
         "en-US": {
             "title": "MemoChat Landing Page",
             "navbar": {
-                "features": "Features",
+                "features": "Quick Start",
                 "github": "GitHub",
                 "download": "Download",
             "githubUrl": "https://github.com/2812427914/MemoChat.git",
@@ -276,7 +276,8 @@
         const translation = translations[selectedLanguage];
 
         document.title = translation.title;
-        document.querySelector('.navbar a[href="#features"]').textContent = translation.navbar.features;
+        const quickStartLink = document.querySelector('.navbar a[href="quick_start.html"]');
+        quickStartLink.textContent = translation.navbar.features;
         const githubLink = document.querySelector('.navbar a[href="#github"]');
         githubLink.textContent = translation.navbar.github;
         githubLink.setAttribute('href', 'https://github.com/2812427914/MemoChat.git');
@@ -354,7 +355,7 @@
 <body>
     <div class="navbar">
         <div class="logo" style="font-size: 24px; font-weight: bold;">
-            MemoChat
+            <a href="index.html" style="color: inherit; text-decoration: none;">MemoChat</a>
         </div>
         <div class="nav-links" style="display: flex; align-items: center;">
             <div class="custom-select" id="languageSwitcher">
@@ -364,7 +365,7 @@
                     <div data-value="en-US">English</div>
                 </div>
             </div>
-            <a href="#features"></a>
+            <a href="quick_start.html">快速上手</a>
             <a href="#github"></a>
             <a href="https://github.com/2812427914/MemoChat/releases" target="_blank" id="download-link"></a>
         </div>
@@ -373,6 +374,7 @@
     <div class="hero">
         <h1>MemoChat</h1>
         <p>集成文档和对话功能的智能工作站</p>
+        <a href="quick_start.html" class="cta-button">快速上手</a>
 
     </div>
 
